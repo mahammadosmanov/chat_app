@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "chat-app-17ea2"
-  }
+    "default": "chatapp-74618",
+    "main": "chatapp-74618"
+  },
+  "targets": {},
+  "etags": {}
 }
