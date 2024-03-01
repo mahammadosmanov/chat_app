@@ -1,39 +1,49 @@
 import 'package:chat_app/app/managers/auth_manager.dart';
+import 'package:chat_app/app/managers/firestore_manager.dart';
 import 'package:chat_app/app/routes/app_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-
 class SignUpController extends GetxController {
-
   FocusNode pinPutFocusNode = FocusNode();
-  String phoneNumber = '';
+  TextEditingController profileNameTextEditingController =
+      TextEditingController();
 
-  Rx<bool> codeSent = false.obs;
+  String phoneNumber = '';
+  Rx<bool> isCodeSent = false.obs;
+  Rx<bool> isAuthorized = false.obs;
+
   void onInputChange(String number) {
     phoneNumber = number;
   }
 
   void onTapSignUpButton() async {
-    codeSent.value = await AuthManager.instance.verifyPhoneNumber(phoneNumber);
+    await AuthManager.instance.verifyPhoneNumber(phoneNumber);
   }
 
-  void onSubmittedSmsCodeEnter(String smsCode) async {
+  void onSubmittedSmsCode(String smsCode) async {
     bool signedIn = await AuthManager.instance.verifySms(smsCode);
-    print(signedIn);
-    if(signedIn) {
-      Get.toNamed(Routes.HOME);
+    if (signedIn) {
+      isAuthorized.value = true;
     }
+  }
+
+  void tapNextButton() {
+    FireStoreManager.instance.createUser(AuthManager.instance.credential, {
+      "name": profileNameTextEditingController.text,
+      "uid": AuthManager.instance.uid ?? ''
+    }); //TODO ask null check section from Dechauvell
+    Get.toNamed(Routes.HOME);
   }
 
   @override
   void onInit() {
     AuthManager.instance.addListener(() {
-      codeSent.value = !codeSent.value;
+      isCodeSent.value = !isCodeSent.value;
     });
     pinPutFocusNode;
     pinPutFocusNode.requestFocus();
-
+    profileNameTextEditingController;
     super.onInit();
   }
 

@@ -1,11 +1,20 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class MessageController extends GetxController {
-  //TODO: Implement MessageController
+  TextEditingController messageTextBox = TextEditingController();
 
-  final count = 0.obs;
+  void sendMessage() {
+    Map<String, String> message = {
+      'name': 'me',
+      'message': messageTextBox.text
+    };
+    print(messageTextBox.text);
+  }
+
   @override
   void onInit() {
+    messageTextBox;
     super.onInit();
   }
 
@@ -16,8 +25,7 @@ class MessageController extends GetxController {
 
   @override
   void onClose() {
+    messageTextBox.dispose();
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

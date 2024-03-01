@@ -1,28 +1,30 @@
 import 'package:chat_app/app/managers/firestore_manager.dart';
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
-  RxList friends = [].obs;
+class FrienduController extends GetxController {
+  RxList users = [].obs;
+
+  void addFriend() {}
 
   @override
   void onInit() {
-    FireStoreManager.instance.friendsSnapshots.forEach(
+    FireStoreManager.instance.usersSnapshots.forEach(
       (collection) {
         for (var doc in collection.docs) {
-          friends.value = [];
-          friends.add(doc.data());
+          users.value = [];
+          users.add(doc.data()['name']);
+        }
+      },
+    );
+    FireStoreManager.instance.usersSnapshots.listen(
+      (collection) {
+        for (var doc in collection.docs) {
+          users.value = [];
+          users.add(doc.data()['name']);
         }
       },
     );
 
-    FireStoreManager.instance.friendsSnapshots.listen(
-      (collection) {
-        for (var doc in collection.docs) {
-          friends.value = [];
-          friends.add(doc.data());
-        }
-      },
-    );
     super.onInit();
   }
 
