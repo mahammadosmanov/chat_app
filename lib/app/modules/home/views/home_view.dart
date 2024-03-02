@@ -17,7 +17,10 @@ class HomeView extends GetView<HomeController> {
               shrinkWrap: true,
               itemCount: controller.friends.length,
               itemBuilder: (context, index) {
-                return _buildUserCard(controller.friends[index]['name']);
+                if (controller.friends[index]['friendName'] != null) {
+                  return _buildUserCard(
+                      controller.friends[index]['friendName']);
+                }
               },
             ),
             const Spacer(),

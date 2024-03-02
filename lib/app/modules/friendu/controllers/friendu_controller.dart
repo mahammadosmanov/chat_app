@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 class FrienduController extends GetxController {
   RxList users = [].obs;
 
-  void addFriend() {}
+  void onTapAdd(Map<String, String> friend) {
+    FireStoreManager.instance.addFriend(friend);
+  }
 
   @override
   void onInit() {

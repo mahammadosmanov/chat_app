@@ -21,22 +21,27 @@ class FrienduView extends GetView<FrienduController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Card(
-                      color: Colors.grey,
+                      color: Colors.black26,
                       elevation: 30,
                       child: Center(
                         child: Text(
                           controller.users[index],
-                          style: const TextStyle(fontSize: 44),
+                          style: const TextStyle(
+                              fontSize: 44, color: Colors.deepPurple),
                         ),
                       ),
                     ),
                     ElevatedButton(
                       style: const ButtonStyle(
                         backgroundColor:
-                            MaterialStatePropertyAll(Colors.black12),
-                        foregroundColor: MaterialStatePropertyAll(Colors.black),
+                            MaterialStatePropertyAll(Colors.black26),
+                        foregroundColor:
+                            MaterialStatePropertyAll(Colors.deepPurple),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        controller
+                            .onTapAdd({'friendName': controller.users[index]});
+                      },
                       child: const Icon(Icons.add),
                     )
                   ],

@@ -4,14 +4,6 @@ import 'package:get/get.dart';
 class MessageController extends GetxController {
   TextEditingController messageTextBox = TextEditingController();
 
-  void sendMessage() {
-    Map<String, String> message = {
-      'name': 'me',
-      'message': messageTextBox.text
-    };
-    print(messageTextBox.text);
-  }
-
   @override
   void onInit() {
     messageTextBox;

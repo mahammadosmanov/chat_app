@@ -21,6 +21,8 @@ class FireStoreManager extends ChangeNotifier {
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> get friendsSnapshots {
+    print(AuthManager.instance.uid);
+
     return _fireStore
         .collection('users')
         .doc(AuthManager.instance.uid)
@@ -30,5 +32,14 @@ class FireStoreManager extends ChangeNotifier {
 
   Stream<QuerySnapshot<Map<String, dynamic>>> get usersSnapshots {
     return _fireStore.collection('users').snapshots();
+  }
+
+  void addFriend(Map<String, String> friend) {
+    _fireStore
+        .collection('users')
+        .doc(AuthManager.instance.uid)
+        .collection('friends')
+        .doc(friend['friendName'])
+        .set(friend);
   }
 }

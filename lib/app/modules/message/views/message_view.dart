@@ -175,7 +175,7 @@ class MessageView extends GetView<MessageController> {
           ),
         ),
         ElevatedButton(
-          onPressed: controller.sendMessage,
+          onPressed: () {}, //TODO implement send message logic
           child: const Icon(
             Icons.send,
             color: Colors.green,

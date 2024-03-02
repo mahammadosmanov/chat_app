@@ -8,8 +8,8 @@ class HomeController extends GetxController {
   void onInit() {
     FireStoreManager.instance.friendsSnapshots.forEach(
       (collection) {
+        friends.value = [];
         for (var doc in collection.docs) {
-          friends.value = [];
           friends.add(doc.data());
         }
       },
@@ -17,8 +17,8 @@ class HomeController extends GetxController {
 
     FireStoreManager.instance.friendsSnapshots.listen(
       (collection) {
+        friends.value = [];
         for (var doc in collection.docs) {
-          friends.value = [];
           friends.add(doc.data());
         }
       },
