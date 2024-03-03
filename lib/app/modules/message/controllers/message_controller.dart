@@ -4,6 +4,12 @@ import 'package:get/get.dart';
 class MessageController extends GetxController {
   TextEditingController messageTextBox = TextEditingController();
 
+  void onTapSend() {}
+
+  void onTapBackButton() {
+    Get.back();
+  }
+
   @override
   void onInit() {
     messageTextBox;

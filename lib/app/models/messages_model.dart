@@ -1,14 +1,16 @@
-class MessagesModel {
-  MessagesModel(
-    this.isSender,
-    this.receiverId,
-    this.senderId,
-    this.receiverName,
-    this.senderName,
-    this.text,
-    this.timeStamp,
-  );
+class MessageModel {
+  MessageModel({
+    required this.isSender,
+    required this.receiverId,
+    required this.senderId,
+    required this.receiverName,
+    required this.senderName,
+    required this.text,
+    required this.timeStamp,
+    this.messageId,
+  });
 
+  final String? messageId;
   final bool isSender;
   final String receiverId;
   final String senderId;

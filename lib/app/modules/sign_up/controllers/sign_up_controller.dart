@@ -28,11 +28,12 @@ class SignUpController extends GetxController {
     }
   }
 
-  void tapNextButton() {
+  void tapNextButton() async {
     FireStoreManager.instance.createUser(AuthManager.instance.credential, {
       "name": profileNameTextEditingController.text,
       "uid": AuthManager.instance.uid ?? ''
     }); //TODO ask null check section from Dechauvell
+    FireStoreManager.instance.get();
     Get.toNamed(Routes.HOME);
   }
 

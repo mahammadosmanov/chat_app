@@ -7,10 +7,15 @@ import '../controllers/message_controller.dart';
 enum ProfilePhotoScale { small, medium, large }
 
 class MessageView extends GetView<MessageController> {
-  const MessageView({super.key});
+  const MessageView({
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
+    String profileName = Get.arguments;
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -20,15 +25,13 @@ class MessageView extends GetView<MessageController> {
               height: 10,
             ),
             _buildAppBar(
-              'Rohtolos',
+              profileName,
             ),
-            //TODO change profile name to bring It from Database
             const SizedBox(
               height: 10,
             ),
-            _buildChatterProfile('Rohtolos', false),
+            _buildChatterProfile('Hi', false),
             _buildChatBubble(false, 'hello motherfuckers'),
-
             Expanded(
               child: Container(),
             ),
@@ -69,6 +72,7 @@ class MessageView extends GetView<MessageController> {
 
   Widget _buildBackButton() {
     return GestureDetector(
+      onTap: controller.onTapBackButton,
       child: const Icon(
         Icons.arrow_back,
         size: 44,
@@ -83,31 +87,31 @@ class MessageView extends GetView<MessageController> {
     );
   }
 
-  Widget _buildChatterProfile(String profileName, bool isMe) {
+  Widget _buildChatterProfile(String profileName, bool isSender) {
     return SizedBox(
       height: 40,
       child: Row(
         mainAxisAlignment:
-            isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+            isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
-          if (!isMe)
+          if (!isSender)
             const SizedBox(
               width: 20,
             ),
-          if (isMe)
+          if (isSender)
             const Align(
               alignment: Alignment.topCenter,
               child: Text('Roh'),
             ),
-          if (isMe)
+          if (isSender)
             const SizedBox(
               width: 10,
             ),
           _buildProfilePhoto(ProfilePhotoScale.small),
           SizedBox(
-            width: isMe ? 20 : 10,
+            width: isSender ? 20 : 10,
           ),
-          if (!isMe)
+          if (!isSender)
             const Align(
               alignment: Alignment.topCenter,
               child: Text('Roh'),
@@ -118,16 +122,16 @@ class MessageView extends GetView<MessageController> {
   }
 
   Widget _buildChatBubble(
-    bool isMe,
+    bool isSender,
     String message,
   ) {
     return Padding(
       padding: EdgeInsets.only(
-        left: isMe ? 0 : 70,
-        right: isMe ? 70 : 0,
+        left: isSender ? 0 : 70,
+        right: isSender ? 70 : 0,
       ),
       child: Align(
-        alignment: isMe ? Alignment.bottomRight : Alignment.bottomLeft,
+        alignment: isSender ? Alignment.bottomRight : Alignment.bottomLeft,
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -137,24 +141,6 @@ class MessageView extends GetView<MessageController> {
       ),
     );
   }
-
-// Widget _buildChat(
-//   List messages,
-//   bool isMe,
-// ) {
-//   return GroupedListView(
-//     reverse: true,
-//     order: GroupedListOrder.DESC,
-//     useStickyGroupSeparators: true,
-//     floatingHeader: true,
-//     elements: messages,
-//     groupBy: (message) => DateTime.now(),
-//     groupHeaderBuilder: ,
-//     itemBuilder: (context, element) {
-//       return _buildChatBubble(isMe, messages[0]); //TODO
-//     },
-//   );
-// }
 
   Widget _buildMessageBox() {
     return Row(

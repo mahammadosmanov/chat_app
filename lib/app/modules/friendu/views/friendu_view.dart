@@ -25,7 +25,7 @@ class FrienduView extends GetView<FrienduController> {
                       elevation: 30,
                       child: Center(
                         child: Text(
-                          controller.users[index],
+                          controller.users[index]["name"],
                           style: const TextStyle(
                               fontSize: 44, color: Colors.deepPurple),
                         ),
@@ -39,11 +39,10 @@ class FrienduView extends GetView<FrienduController> {
                             MaterialStatePropertyAll(Colors.deepPurple),
                       ),
                       onPressed: () {
-                        controller
-                            .onTapAdd({'friendName': controller.users[index]});
+                        controller.onTapAdd(controller.users[index]['uid']);
                       },
                       child: const Icon(Icons.add),
-                    )
+                    ),
                   ],
                 );
               },

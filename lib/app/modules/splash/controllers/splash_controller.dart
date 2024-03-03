@@ -1,4 +1,5 @@
 import 'package:chat_app/app/managers/auth_manager.dart';
+import 'package:chat_app/app/managers/firestore_manager.dart';
 import 'package:chat_app/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +11,7 @@ class SplashController extends GetxController {
 
   @override
   void onReady() {
+    FireStoreManager.instance.get();
     if (AuthManager.instance.signedIn) {
       Get.offNamed(Routes.HOME);
     } else {

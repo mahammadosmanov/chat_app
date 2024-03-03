@@ -9,37 +9,44 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return Scaffold(
+    return Obx(
+      () => Scaffold(
         body: Column(
           children: [
             ListView.builder(
               shrinkWrap: true,
-              itemCount: controller.friends.length,
+              itemCount: controller.friendsNameList.length,
               itemBuilder: (context, index) {
-                if (controller.friends[index]['friendName'] != null) {
-                  return _buildUserCard(
-                      controller.friends[index]['friendName']);
+                if (controller.friendsNameList[index] != null) {
+                  return _buildUserCard(controller.friendsNameList[index], '');
                 }
+                return null;
               },
             ),
             const Spacer(),
             const BottomBar(),
           ],
         ),
-      );
-    });
+      ),
+    );
   }
 
-  Widget _buildUserCard(String profileName) {
-    return Card(
-      shape: const Border(
-        left: BorderSide(width: 100),
-      ),
-      child: Center(
-        child: Text(
+  Widget _buildUserCard(String profileName, String profileId) {
+    return GestureDetector(
+      onTap: () {
+        controller.onTapUser(
           profileName,
-          style: const TextStyle(fontSize: 44),
+        );
+      },
+      child: Card(
+        shape: const Border(
+          left: BorderSide(width: 100),
+        ),
+        child: Center(
+          child: Text(
+            profileName,
+            style: const TextStyle(fontSize: 44),
+          ),
         ),
       ),
     );
