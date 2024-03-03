@@ -3,16 +3,22 @@ part of 'app_pages.dart';
 
 abstract class Routes {
   Routes._();
+
   static const HOME = _Paths.HOME;
   static const MESSAGE = _Paths.MESSAGE;
   static const PROFILE = _Paths.PROFILE;
-  static const LOGIN = _Paths.LOGIN;
+  static const SIGN_UP = _Paths.SIGN_UP;
+  static const FRIENDU = _Paths.FRIENDU;
+  static const SPLASH = _Paths.SPLASH;
 }
 
 abstract class _Paths {
   _Paths._();
+
   static const HOME = '/home';
   static const MESSAGE = '/message';
   static const PROFILE = '/profile';
-  static const LOGIN = '/login';
+  static const SIGN_UP = '/sign-up';
+  static const FRIENDU = '/friendu';
+  static const SPLASH = '/splash';
 }
