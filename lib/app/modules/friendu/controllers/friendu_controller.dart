@@ -11,16 +11,7 @@ class FrienduController extends GetxController {
 
   @override
   void onInit() {
-    FireStoreManager.instance.usersSnapshots.forEach(
-      (collection) {
-        users.value = [];
-        for (QueryDocumentSnapshot<Map<String, dynamic>> doc
-            in collection.docs) {
-          users.add(doc.data());
-        }
-      },
-    );
-    FireStoreManager.instance.usersSnapshots.listen(
+    FireStoreManager.instance.usersCollection.snapshots().listen(
       (collection) {
         users.value = [];
         for (QueryDocumentSnapshot doc in collection.docs) {
@@ -28,7 +19,6 @@ class FrienduController extends GetxController {
         }
       },
     );
-
     super.onInit();
   }
 

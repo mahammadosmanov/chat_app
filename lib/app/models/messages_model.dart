@@ -1,6 +1,6 @@
 class MessageModel {
   MessageModel({
-    required this.isSender,
+    this.isSender,
     required this.receiverId,
     required this.senderId,
     required this.receiverName,
@@ -11,7 +11,7 @@ class MessageModel {
   });
 
   final String? messageId;
-  final bool isSender;
+  final bool? isSender;
   final String receiverId;
   final String senderId;
   final String receiverName;

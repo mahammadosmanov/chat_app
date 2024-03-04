@@ -19,13 +19,13 @@ class ProfileView extends GetView<ProfileController> {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Card(
+                  const Card(
                     color: Colors.grey,
                     elevation: 30,
                     child: Center(
                       child: Text(
                         '',
-                        style: const TextStyle(fontSize: 44),
+                        style: TextStyle(fontSize: 44),
                       ),
                     ),
                   ),
@@ -34,7 +34,7 @@ class ProfileView extends GetView<ProfileController> {
                       backgroundColor: MaterialStatePropertyAll(Colors.black12),
                       foregroundColor: MaterialStatePropertyAll(Colors.black),
                     ),
-                    onPressed: () {},
+                    onPressed: controller.signOut,
                     child: const Icon(Icons.add),
                   )
                 ],

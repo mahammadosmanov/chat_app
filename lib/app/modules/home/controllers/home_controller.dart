@@ -1,55 +1,50 @@
+import 'dart:async';
+
 import 'package:chat_app/app/managers/auth_manager.dart';
 import 'package:chat_app/app/managers/firestore_manager.dart';
 import 'package:chat_app/app/routes/app_pages.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   List friendsIdList = [];
   RxList friendsNameList = [].obs;
+  StreamSubscription? _userStream;
 
-  void onTapUser(String profileName) {
+  void onTapUser(
+    String friendName,
+    String friendUid,
+  ) {
     Get.toNamed(
       Routes.MESSAGE,
-      arguments: profileName,
+      arguments: {"friendName": friendName, "friendUid": friendUid},
     );
   }
 
   @override
-  void onInit() {
-    FireStoreManager.instance.usersSnapshots.listen(
-      (collection) {
+  Future<void> onInit() async {
+    friendsIdList = [];
+    friendsNameList.value = [];
+
+    _userStream = FireStoreManager.instance.friendsCollection
+        .doc(AuthManager.instance.uid)
+        .snapshots()
+        .listen(
+      (event) async {
         friendsIdList = [];
         friendsNameList.value = [];
-        for (var doc in collection.docs) {
-          if (doc.id == AuthManager.instance.uid) {
-            friendsIdList = doc.data()['friends'];
-          }
-          if (friendsIdList.contains(doc.id)) {
-            friendsNameList.add(doc.data()['name']);
-          }
+        friendsIdList = event.data()?['friends'];
+        for (var friendId in friendsIdList) {
+          DocumentSnapshot<Map<String, dynamic>> friendDoc =
+              await FireStoreManager.instance.usersCollection
+                  .doc(friendId)
+                  .get();
+          friendsNameList.add(friendDoc.data()?['name']);
         }
       },
     );
 
     super.onInit();
-
-    // FireStoreManager.instance.usersSnapshots.forEach(
-    //   (collection) {
-    //     friends.value = [];
-    //     for (var doc in collection.docs) {
-    //       friends.add(doc.data()[]);
-    //     }
-    //   },
-    // );
-
-    // FireStoreManager.instance.usersSnapshots.listen(
-    //   (collection) {
-    //     friends.value = [];
-    //     for (var doc in collection.docs) {
-    //       friends.add(doc.data());
-    //     }
-    //   },
-    // );
   }
 
   @override
@@ -58,7 +53,9 @@ class HomeController extends GetxController {
   }
 
   @override
-  void onClose() {
+  void onClose() async {
+    await _userStream?.cancel();
+    _userStream = null;
     super.onClose();
   }
 }

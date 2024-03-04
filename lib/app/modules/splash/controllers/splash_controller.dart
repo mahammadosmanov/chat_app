@@ -11,7 +11,7 @@ class SplashController extends GetxController {
 
   @override
   void onReady() {
-    FireStoreManager.instance.get();
+    FireStoreManager.instance.getUserName();
     if (AuthManager.instance.signedIn) {
       Get.offNamed(Routes.HOME);
     } else {

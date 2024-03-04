@@ -16,6 +16,10 @@ class AuthManager extends ChangeNotifier {
     }
   }
 
+  void signOut() async {
+    await _auth.signOut();
+  }
+
   String? get uid {
     return _auth.currentUser?.uid;
   }

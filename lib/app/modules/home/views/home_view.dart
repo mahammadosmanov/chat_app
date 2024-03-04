@@ -18,7 +18,8 @@ class HomeView extends GetView<HomeController> {
               itemCount: controller.friendsNameList.length,
               itemBuilder: (context, index) {
                 if (controller.friendsNameList[index] != null) {
-                  return _buildUserCard(controller.friendsNameList[index], '');
+                  return _buildUserCard(controller.friendsNameList[index],
+                      controller.friendsIdList[index]);
                 }
                 return null;
               },
@@ -31,12 +32,10 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildUserCard(String profileName, String profileId) {
+  Widget _buildUserCard(String profileName, String profileUid) {
     return GestureDetector(
       onTap: () {
-        controller.onTapUser(
-          profileName,
-        );
+        controller.onTapUser(profileName, profileUid);
       },
       child: Card(
         shape: const Border(

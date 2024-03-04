@@ -29,19 +29,23 @@ class SignUpController extends GetxController {
   }
 
   void tapNextButton() async {
-    FireStoreManager.instance.createUser(AuthManager.instance.credential, {
-      "name": profileNameTextEditingController.text,
-      "uid": AuthManager.instance.uid ?? ''
-    }); //TODO ask null check section from Dechauvell
-    FireStoreManager.instance.get();
+    FireStoreManager.instance.createUser(
+      {
+        "name": profileNameTextEditingController.text,
+        "uid": AuthManager.instance.uid ?? ''
+      },
+    );
+    FireStoreManager.instance.getUserName();
     Get.toNamed(Routes.HOME);
   }
 
   @override
   void onInit() {
-    AuthManager.instance.addListener(() {
-      isCodeSent.value = !isCodeSent.value;
-    });
+    AuthManager.instance.addListener(
+      () {
+        isCodeSent.value = !isCodeSent.value;
+      },
+    );
     pinPutFocusNode;
     pinPutFocusNode.requestFocus();
     profileNameTextEditingController;

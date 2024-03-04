@@ -1,7 +1,6 @@
 import 'package:chat_app/app/core/constants/assets_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../controllers/message_controller.dart';
 
 enum ProfilePhotoScale { small, medium, large }
@@ -15,28 +14,45 @@ class MessageView extends GetView<MessageController> {
   Widget build(
     BuildContext context,
   ) {
-    String profileName = Get.arguments;
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 10,
+    return Obx(
+      () => SafeArea(
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                _buildAppBar(
+                  controller.friendData['friendName'] ?? '',
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  height: 740,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: controller.messageList.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          _buildChatterProfile(
+                              controller.messageList[index].senderName,
+                              controller.messageList[index].isSender!),
+                          _buildChatBubble(
+                              controller.messageList[index].isSender!,
+                              controller.messageList[index].text),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                _buildMessageBox(),
+              ],
             ),
-            _buildAppBar(
-              profileName,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            _buildChatterProfile('Hi', false),
-            _buildChatBubble(false, 'hello motherfuckers'),
-            Expanded(
-              child: Container(),
-            ),
-            _buildMessageBox(),
-          ],
+          ),
         ),
       ),
     );
@@ -99,9 +115,9 @@ class MessageView extends GetView<MessageController> {
               width: 20,
             ),
           if (isSender)
-            const Align(
+            Align(
               alignment: Alignment.topCenter,
-              child: Text('Roh'),
+              child: Text(profileName),
             ),
           if (isSender)
             const SizedBox(
@@ -112,9 +128,9 @@ class MessageView extends GetView<MessageController> {
             width: isSender ? 20 : 10,
           ),
           if (!isSender)
-            const Align(
+            Align(
               alignment: Alignment.topCenter,
-              child: Text('Roh'),
+              child: Text(profileName),
             ),
         ],
       ),
@@ -151,7 +167,7 @@ class MessageView extends GetView<MessageController> {
         SizedBox(
           width: 280,
           child: TextField(
-            controller: controller.messageTextBox,
+            controller: controller.messageTextEditingController,
             decoration: const InputDecoration(
               enabled: true,
               fillColor: Colors.grey,
@@ -161,7 +177,9 @@ class MessageView extends GetView<MessageController> {
           ),
         ),
         ElevatedButton(
-          onPressed: () {}, //TODO implement send message logic
+          onPressed: () {
+            controller.sendMessage();
+          },
           child: const Icon(
             Icons.send,
             color: Colors.green,
