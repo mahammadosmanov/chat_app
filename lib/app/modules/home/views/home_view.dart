@@ -32,7 +32,10 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildUserCard(String profileName, String profileUid) {
+  Widget _buildUserCard(
+    String profileName,
+    String profileUid,
+  ) {
     return GestureDetector(
       onTap: () {
         controller.onTapUser(profileName, profileUid);

@@ -1,5 +1,6 @@
 import 'package:chat_app/app/core/constants/assets_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import '../controllers/message_controller.dart';
 
@@ -17,41 +18,38 @@ class MessageView extends GetView<MessageController> {
     return Obx(
       () => SafeArea(
         child: Scaffold(
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 10,
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              _buildAppBar(
+                controller.friendData['friendName'] ?? '',
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: controller.messageList.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        _buildChatterProfile(
+                            controller.messageList[index].senderName,
+                            controller.messageList[index].isSender!),
+                        _buildChatBubble(
+                            controller.messageList[index].isSender!,
+                            controller.messageList[index].text),
+                      ],
+                    );
+                  },
                 ),
-                _buildAppBar(
-                  controller.friendData['friendName'] ?? '',
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  height: 740,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: controller.messageList.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          _buildChatterProfile(
-                              controller.messageList[index].senderName,
-                              controller.messageList[index].isSender!),
-                          _buildChatBubble(
-                              controller.messageList[index].isSender!,
-                              controller.messageList[index].text),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-                _buildMessageBox(),
-              ],
-            ),
+              ),
+              _buildMessageBox(),
+            ],
           ),
         ),
       ),

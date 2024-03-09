@@ -35,7 +35,7 @@ class ProfileView extends GetView<ProfileController> {
                       foregroundColor: MaterialStatePropertyAll(Colors.black),
                     ),
                     onPressed: controller.signOut,
-                    child: const Icon(Icons.add),
+                    child: const Text('Sign Out'),
                   )
                 ],
               );
