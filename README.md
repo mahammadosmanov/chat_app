@@ -1,1 +1,1 @@
-flutterfire configure --project=typology-1ae22 
+
